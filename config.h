@@ -63,11 +63,13 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "alacritty", NULL };
 
 /* volume commands */
-// TODO: figure out how to use nix to determine path for pactl
+// TODO: figure out how to use nix to determine path
 static const char *upvol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL };
 static const char *downvol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%", NULL };
 static const char *mutevol[] = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
-
+/* brightness commands */
+static const char *brighten[] = { "brightnessctl", "s", "+25", NULL };
+static const char *darken[] = { "brightnessctl", "s", "25-", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -105,9 +107,11 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },
 
-        { 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
-	{ 0,                       XF86XK_AudioMute, spawn, {.v = mutevol } },
-	{ 0,                       XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
+	{ 0,                XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
+	{ 0,                XF86XK_AudioMute, spawn, {.v = mutevol } },
+	{ 0,                XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
+	{ 0,				XF86XK_MonBrightnessUp,		spawn,	{.v = light_up} },
+	{ 0,				XF86XK_MonBrightnessDown,	spawn,	{.v = light_down} },
 };
 
 /* button definitions */
